@@ -31,7 +31,7 @@ class Node<T> {
 ///
 /// Type Parameters:
 /// - `E`: The type of elements contained in the list.
-class LinkedList<E> {
+class LinkedList<E> extends Iterable<E> {
   /// The head node of the linked list.
   Node<E>? head;
 
@@ -41,6 +41,7 @@ class LinkedList<E> {
   /// Checks if the linked list is empty.
   ///
   /// Returns `true` if the list is empty, otherwise `false`.
+  @override
   bool get isEmpty => head == null;
 
   /// Returns a string representation of the linked list.
@@ -177,6 +178,56 @@ class LinkedList<E> {
 
     return value;
   }
+
+  /// Reverse the linked list.
+  ///
+  /// The `reverse` method reverses the order of the elements in the linked list.
+  void reverse() {
+    Node<E>? previous;
+    Node<E>? current = head;
+    Node<E>? next;
+
+    tail = head;
+
+    while (current != null) {
+      next = current.next;
+      current.next = previous;
+      previous = current;
+      current = next;
+    }
+
+    head = previous;
+  }
+
+  @override
+  Iterator<E> get iterator => _LinkedListIterator<E>(this);
+}
+
+class _LinkedListIterator<E> implements Iterator<E> {
+  _LinkedListIterator(LinkedList<E> list) : _list = list;
+
+  final LinkedList<E> _list;
+
+  Node<E>? _current;
+
+  @override
+  E get current => _current!.value;
+
+  bool _firstPass = true;
+
+  @override
+  bool moveNext() {
+    if (_list.isEmpty) return false;
+
+    if (_firstPass) {
+      _current = _list.head;
+      _firstPass = false;
+    } else {
+      _current = _current?.next;
+    }
+
+    return _current != null;
+  }
 }
 
 void main() {
@@ -236,4 +287,20 @@ void main() {
 
   print('After remove after: $list');
   print('Removed value: $removedValue2');
+
+  list = LinkedList<int>();
+
+  list.push(3);
+  list.push(2);
+  list.push(1);
+
+  for (final value in list) {
+    print(value);
+  }
+
+  print('Before reverse: $list');
+
+  list.reverse();
+
+  print('After reverse: $list');
 }

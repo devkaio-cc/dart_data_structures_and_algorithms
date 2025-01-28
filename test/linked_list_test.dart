@@ -87,5 +87,27 @@ void main() {
       expect(value, 1);
       expect(list.toString(), '3 -> 2');
     });
+
+    test('removeAfter returns null if the given node is the last node', () {
+      final list = LinkedList<int>();
+      list.push(1);
+      list.push(2);
+      list.push(3);
+
+      final node = list.nodeAt(0)!;
+      final value = list.removeAfter(node);
+      expect(value, isNull);
+      expect(list.toString(), '3 -> 2 -> 1');
+    });
+
+    test('reverse reverses the list', () {
+      final list = LinkedList<int>();
+      list.push(1);
+      list.push(2);
+      list.push(3);
+
+      list.reverse();
+      expect(list.toString(), '1 -> 2 -> 3');
+    });
   });
 }
