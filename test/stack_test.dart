@@ -1,4 +1,4 @@
-import 'package:dart_data_structures_and_algorithms/stack.dart';
+import 'package:dart_data_structures_and_algorithms/data_structures/stack.dart';
 import 'package:test/test.dart';
 
 void main() {
