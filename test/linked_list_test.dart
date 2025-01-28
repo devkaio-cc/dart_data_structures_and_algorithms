@@ -64,5 +64,28 @@ void main() {
       list.push(1);
       expect(list.isEmpty, isFalse);
     });
+
+    test('removeLast removes and returns the last element', () {
+      final list = LinkedList<int>();
+      list.push(1);
+      list.push(2);
+      list.push(3);
+
+      final value = list.removeLast();
+      expect(value, 1);
+      expect(list.toString(), '3 -> 2');
+    });
+
+    test('removeAfter removes the node following the given node', () {
+      final list = LinkedList<int>();
+      list.push(1);
+      list.push(2);
+      list.push(3);
+
+      final node = list.nodeAt(1)!;
+      final value = list.removeAfter(node);
+      expect(value, 1);
+      expect(list.toString(), '3 -> 2');
+    });
   });
 }

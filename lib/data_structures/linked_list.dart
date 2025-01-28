@@ -136,6 +136,47 @@ class LinkedList<E> {
 
     return value;
   }
+
+  /// Removes and returns the last element in the linked list.
+  ///
+  /// If the list is empty, returns `null`. If the list has only one element,
+  /// it uses the `pop` method to remove and return that element.
+  ///
+  /// Returns the value of the removed element, or `null` if the list is empty.
+  E? removeLast() {
+    if (head?.next == null) return pop();
+
+    Node<E>? current = head;
+
+    while (current?.next != tail) {
+      current = current?.next;
+    }
+
+    final value = tail?.value;
+    tail = current;
+    tail?.next = null;
+
+    return value;
+  }
+
+  /// Removes the node immediately following the given [node] in the linked list.
+  ///
+  /// If the node following the given [node] is the tail of the list, the tail
+  /// is updated to be the given [node].
+  ///
+  /// Returns the value of the removed node, or `null` if there is no node
+  /// following the given [node].
+  E? removeAfter(Node<E> node) {
+    final value = node.next?.value;
+
+    if (node.next == tail) {
+      tail = node;
+    }
+
+    node.next = node.next?.next;
+
+    return value;
+  }
 }
 
 void main() {
@@ -166,4 +207,33 @@ void main() {
   list.insertAfter(node, 42);
 
   print('After insert: $list');
+
+  list = LinkedList<int>();
+
+  list.push(3);
+  list.push(2);
+  list.push(1);
+
+  print('Before remove last: $list');
+
+  final removedValue = list.removeLast();
+
+  print('Removed value: $removedValue');
+  print('After remove last: $list');
+
+  list = LinkedList<int>();
+
+  list.push(3);
+  list.push(2);
+  list.push(1);
+
+  print('Before remove after: $list');
+
+  final firsNode = list.nodeAt(0);
+  final removedValue2 = list.removeAfter(firsNode!);
+
+  print('Removed value: $removedValue2');
+
+  print('After remove after: $list');
+  print('Removed value: $removedValue2');
 }
