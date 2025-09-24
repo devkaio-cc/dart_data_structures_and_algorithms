@@ -61,6 +61,12 @@ void main() {
   print(queueLinkedList.peek); // Second
 
   print(queueLinkedList); // [Second, Third]
+
+  print('QueueStack example');
+  final queueStack = QueueStack<String>();
+  queueStack.enqueue('First');
+  queueStack.enqueue('Second');
+  queueStack.enqueue('Third');
 }
 
 class QueueLinkedList<E> implements Queue<E> {
@@ -83,4 +89,33 @@ class QueueLinkedList<E> implements Queue<E> {
 
   @override
   toString() => _list.toString();
+}
+
+class QueueStack<E> implements Queue<E> {
+  final _leftStack = <E>[];
+  final _rightStack = <E>[];
+
+  @override
+  E? dequeue() {
+    if (_leftStack.isEmpty) {
+      _leftStack.addAll(_rightStack.reversed);
+      _rightStack.clear();
+    }
+    if (_leftStack.isEmpty) {
+      return null;
+    }
+    return _leftStack.removeLast();
+  }
+
+  @override
+  bool enqueue(E element) {
+    _rightStack.add(element);
+    return true;
+  }
+
+  @override
+  bool get isEmpty => _leftStack.isEmpty && _rightStack.isEmpty;
+
+  @override
+  E? get peek => _leftStack.isNotEmpty ? _leftStack.last : _rightStack.first;
 }
